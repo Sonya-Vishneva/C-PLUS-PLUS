@@ -195,3 +195,27 @@ int main(){
  
     return 0;
 }
+
+9. Напишите функцию IsPalindrome(string), которая проверяет, будет ли строка палиндромом. Если строка — палиндром, пусть функция печатает 1, а если нет — 0. Пустая строка считается палиндромом.
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void IsPalindrome(string s) {
+    string word;
+     for(int i = s.size()-1; i >= 0; i-- )
+    {
+        word = word + s[i];
+    }
+    if(s == word) { cout << "1" << endl; }
+    else { cout << "0" << endl; }
+}
+
+int main() {
+    IsPalindrome(""s);
+    IsPalindrome("ara"s);
+    IsPalindrome("deer"s);
+    return 0;
+}
