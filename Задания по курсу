@@ -255,3 +255,29 @@ int main()
  
     return 0;
 }
+11. Напишите функцию, которая называется Factorial. Она должна возвращать int, принимать int и возвращать факториал своего аргумента.
+Гарантируется, что аргумент функции находится в пределах от -10 до 10. Для отрицательных аргументов функция должна возвращать 1.
+#include <iostream> 
+using namespace std;
+int Factorial( int x){
+int i = 1;
+int ans = 1 ;
+if ( x > 0){
+for (i = 1; i<=x ; i++ ){
+ans *=i;
+}
+return ans;
+}else {
+return 1;
+}
+
+}
+
+int main(){
+
+int b;
+cin>>b;
+cout<<Factorial(b);
+
+return 0;
+}
