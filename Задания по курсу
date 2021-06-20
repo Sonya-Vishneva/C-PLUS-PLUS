@@ -281,3 +281,152 @@ cout<<Factorial(b);
 
 return 0;
 }
+12. Напишите функцию, которая
+называется PalindromeFilter,
+возвращает vector<string>,
+принимает vector<string> words и int min_length ,
+возвращает из вектора words все строки-палиндромы длиной не меньше min_length.
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+bool IsPalindrome(string s)
+{
+int i = 0;
+int size = s.size();
+while(1)
+{
+if (!(s[i] == s[size-i-1]))
+return false;
+else if (( i == (size-i-1) ) || (( i - (size-i-1) ) == 1))
+return true;
+i++;
+}
+}
+
+vector<string> PalindromeFilter(vector<string> words, int minLength)
+{
+vector<string> output;
+vector<string>::iterator it;
+
+for (it = words.begin(); it != words.end(); it++){
+if (((*it).size() >= (unsigned)minLength) && IsPalindrome(*it))
+output.push_back(*it);
+}
+
+return output;
+}
+13. Множества позволяют оставлять в наборе элементов только уникальные. Найдите количество уникальных строк в наборе.
+Формат ввода
+Сначала вводится количество строк N, затем сами строки, разделённые пробелом. Строки могут состоять только из латинских букв, цифр и символов подчёркивания.
+Формат вывода
+Выведите единственное целое число — количество уникальных строк в данном наборе.
+#include <iostream>
+#include <string>
+#include <set>
+
+using namespace std;
+int main() {
+    int n;
+    string str;
+    set<string> animals;
+    cin >> n; 
+    for (int i=0; i < n ; i++) {
+        cin >> str;
+        animals.insert(str);
+    }
+    cout << animals.size(); 
+    return 0;
+}
+14. Представьте, что анализируете запросы пользователей в вашей поисковой системе. Есть слова запроса и описание животного. Посчитайте релевантность запроса — размер множества слов, которые входят и в запрос, и в описание.
+#include <iostream>
+#include <vector>
+#include <string>
+#include <set>
+
+using namespace std;
+
+int CalculateSimilarity(vector<string> first, vector<string> second) {
+    set <string> st;
+    for (int i=0; i < first.size(); i++)
+    {
+        st.insert(first[i]);
+    }
+    for (int i=0; i < second.size(); i++)
+    {
+        st.insert(second[i]);
+    }
+    return first.size()+second.size()-st.size();
+}
+
+vector<string> SplitIntoWords(string text) {
+    vector<string> words;
+    string word;
+    for (int i = 0; i < text.size(); ++i) {
+        if (text[i] == ' ') {
+            words.push_back(word);
+            word = "";
+        } else {
+            word += text[i];
+        }
+    }
+    words.push_back(word);
+    
+    return words;
+}
+
+int main() {
+    string query, description;
+
+    getline(cin, query);
+    getline(cin, description);
+
+    cout << CalculateSimilarity(SplitIntoWords(query), SplitIntoWords(description)) << endl;
+
+    return 0;
+}
+15. Научите свою поисковую систему отбрасывать стоп-слова. На вход примите сначала строку стоп-слов, а затем с нового абзаца — строку-запрос. Выводите только те слова, которых нет в списке запрещённых. Формат вывода слов оставьте как в заготовке кода.
+Функция разбиения строки на слова у вас уже реализована, осталось сделать фильтрацию.
+#include <iostream>
+#include <string>
+#include <vector>
+#include <set>
+ 
+using namespace std;
+ 
+vector<string> SplitIntoWords(string text){
+    vector<string> words;
+    string word;
+    for (int i = 0; i < text.size(); ++i){
+        if (text[i] == ' '){
+            words.push_back(word); 
+            word = ""; 
+        }else{
+            word += text[i];
+        }
+    }
+    words.push_back(word);
+    return words;
+}
+ 
+int main() {
+    string query;
+    getline(cin, query); 
+    set <string> stop_words; 
+    for (string word : SplitIntoWords(query)) {
+        stop_words.insert(word);
+    }
+ 
+    getline(cin, query); 
+    vector<string> query_words; 
+    for (string word : SplitIntoWords(query)) {
+        if (stop_words.count(word) == 0) {
+            query_words.push_back(word);
+        }
+    }
+    
+    for (string word : query_words) {
+        cout << '[' << word << ']' << endl;
+    }
+}
