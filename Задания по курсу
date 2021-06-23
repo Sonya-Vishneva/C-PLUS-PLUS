@@ -487,4 +487,109 @@ int main() {
         cout << '[' << word << ']' << endl;
     }
 }
-17.
+17. Представьте, что собираете данные очевидцев о том, где они видели пропавшего кота. Чтобы очертить круг поисков, нужно вычислить максимальное расстояние, на которое кот удалился от дома.
+Текущее максимальное расстояние лежит в целочисленной переменной max_distance. Каждое новое свидетельство очевидца — это целое число с расстоянием. И оно может увеличить max_distance.
+Напишите функцию UpdateIfGreater, принимающую два целочисленных аргумента: limit и value. Если limit окажется больше value, пусть функция запишет в value значение параметра limit. Нужно, чтобы изменение параметра value было видно на вызывающей стороне. Возвращать функция ничего не должна.
+#include <iostream>
+#include <string>
+#include <vector>
+ 
+using namespace std;
+ 
+ 
+void UpdateIfGreater(const int first, int& second) {
+    if (first > second) second = first;
+    return;
+}
+ 
+int main()
+{
+    int a = 4;
+    int b = 2;
+    UpdateIfGreater(a, b);
+    cout << b;
+    return 0;
+}
+18. Напишите функцию MoveStrings. Она принимает векторы строк source и destination и дописывает все строки из первого вектора в конец второго. После выполнения функции вектор source должен быть пустым.
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+void MoveStrings(vector<string>& source, vector<string>& destination) { 
+    for (auto x : source) {
+        destination.push_back(x); 
+    }
+    source.clear(); 
+}
+int main() 
+{
+    vector<string> source = { "sdf","aaa","bbb" }, destination = { "xxx" };
+    MoveStrings(source, destination); 
+    for (auto i : source) {
+        cout << i << " " << endl; 
+    }
+    for (auto i : destination) {
+        cout << i << " "; 
+    }
+    return 0;
+}
+19. Посмотрите на код программы, которая обрабатывает поисковый запрос. Отметьте константными все ссылки, которые должны ими быть. Попробуйте изменить объекты по полученным константным ссылкам. Сообщение об ошибке будет выглядеть знакомо.
+#include <iostream>
+#include <set>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+
+const vector<string> SplitIntoWords(const string& text) {
+    vector<string> words;
+    string word;
+    for (char c : text) {
+        if (c == ' ') {
+            words.push_back(word);
+            word = "";
+        } else {
+            word += c;
+        }
+    }
+    words.push_back(word);
+    
+    return words;
+}
+
+set<string> ParseStopWords(const string& text) {
+    set<string> stop_words;
+    for (const string& word : SplitIntoWords(text)) {
+        stop_words.insert(word);
+    }
+    return stop_words;
+}
+
+const vector<string> ParseQuery(const string& text, const set<string>& stop_words) {
+    vector<string> words;
+    for (const string& word : SplitIntoWords(text)) {
+        if (stop_words.count(word) == 0) {
+            words.push_back(word);
+        }
+    }
+    return words;
+}
+
+
+int main() {
+    // Read stop words
+    string stop_words_joined;
+    getline(cin, stop_words_joined);
+    set<string> stop_words = ParseStopWords(stop_words_joined);
+    
+    // Read query
+    string query;
+    getline(cin, query);
+    vector<string> query_words = ParseQuery(query, stop_words);
+    
+    for (string& word : query_words) {
+        cout << '[' << word << ']' << endl;
+    }
+}
+20. 
